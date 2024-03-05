@@ -4,19 +4,22 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.moneymanager.R;
+import com.example.moneymanager.adapters.AccountsAdapter;
 import com.example.moneymanager.adapters.CategoryAdapter;
 import com.example.moneymanager.databinding.FragmentAddTransactionBinding;
 import com.example.moneymanager.databinding.ListDialogBinding;
+import com.example.moneymanager.models.Account;
 import com.example.moneymanager.models.Category;
+import com.example.moneymanager.utils.Helper;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -72,8 +75,8 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
                     calendar.set(Calendar.YEAR, datePicker.getYear());
 
                     //format date
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, yyyy");
-                    String dateToShow = dateFormat.format(calendar.getTime());
+                    //SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, yyyy");
+                    String dateToShow = Helper.formateDate(calendar.getTime());
 
                     //set on view
                     binding.date.setText(dateToShow);
@@ -98,11 +101,51 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             categories.add(new Category("Rent",R.drawable.ic_rent, R.color.category5));
             categories.add(new Category("Other",R.drawable.ic_other, R.color.category6));
 
-            CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories);
+            CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories, new CategoryAdapter.CategoryClickListener() {
+                @Override
+                public void onCategoryClicked(Category category) {
+                    binding.category.setText(category.getCategoryName());
+                    categoryDialog.dismiss();
+
+                }
+            });
             dialogBinding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
             dialogBinding.recyclerView.setAdapter(categoryAdapter);
 
             categoryDialog.show();
+        });
+
+        binding.account.setOnClickListener(c->{
+            ListDialogBinding dialogBinding = ListDialogBinding.inflate(inflater);
+            AlertDialog accountsDialog = new AlertDialog.Builder(getContext()).create();
+            accountsDialog.setView(dialogBinding.getRoot());
+
+            ArrayList<Account> accounts = new ArrayList<>();
+            accounts.add(new Account(0, "Cash"));
+            accounts.add(new Account(0, "Bank"));
+            accounts.add(new Account(0, "PayTM"));
+            accounts.add(new Account(0, "EasyPaisa"));
+            accounts.add(new Account(0, "Other"));
+
+            AccountsAdapter adapter = new AccountsAdapter(getContext(), accounts, new AccountsAdapter.AccountClickListener() {
+                @Override
+                public void onAccountSelected(Account account) {
+
+                    binding.account.setText(account.getAccountName());
+                    accountsDialog.dismiss();
+
+                }
+            });
+            dialogBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+           // dialogBinding.recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+            dialogBinding.recyclerView.setAdapter(adapter);
+
+
+            accountsDialog.show();
+
+
+
+
         });
 
 
