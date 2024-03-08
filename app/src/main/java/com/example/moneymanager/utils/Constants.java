@@ -33,5 +33,22 @@ public class Constants {
     }
 
 
+    public static int getAccountsColor(String accountName){
+        int color = 0;
+
+        switch (accountName) {
+            case "Bank":
+                return R.color.bank_color;
+            case "Cash":
+                return R.color.cash_color;
+            case "Card":
+                return R.color.card_color;
+            default:
+                return R.color.default_color;
+        }
+
+    }
+
+
 
 }

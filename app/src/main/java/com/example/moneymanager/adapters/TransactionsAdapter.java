@@ -18,13 +18,15 @@ import com.example.moneymanager.utils.Helper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import io.realm.RealmResults;
+
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder>{
 
     Context context;
-    ArrayList<Transaction> transactions;
+    RealmResults<Transaction> transactions;
 
 
-    public TransactionsAdapter(Context context, ArrayList<Transaction> transactions){
+    public TransactionsAdapter(Context context, RealmResults<Transaction> transactions){
 
             this.context = context;
             this.transactions = transactions;
@@ -54,6 +56,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
 
         holder.binding.categoryIcon.setImageResource(transactionCategory.getCategoryImage());
         holder.binding.categoryIcon.setBackgroundTintList(context.getColorStateList(transactionCategory.getCategoryColor()));
+
+        holder.binding.accountLbl.setBackgroundTintList(context.getColorStateList(Constants.getAccountsColor(transaction.getAccount())));
 
         if(transaction.getType().equals(Constants.INCOME))  {
             holder.binding.transactionAmount.setTextColor(context.getColor(R.color.greenColor));
