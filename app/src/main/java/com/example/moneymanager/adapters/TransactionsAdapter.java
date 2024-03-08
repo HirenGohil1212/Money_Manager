@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
 import com.example.moneymanager.databinding.RowTransactionBinding;
+import com.example.moneymanager.models.Category;
 import com.example.moneymanager.models.Transaction;
 import com.example.moneymanager.utils.Constants;
 import com.example.moneymanager.utils.Helper;
@@ -48,6 +49,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         holder.binding.transactionDate.setText(Helper.formateDate(transaction.getDate()));
 
         holder.binding.transactionCategory.setText(transaction.getCategory());
+
+        Category transactionCategory =  Constants.getCategoryDetails(transaction.getCategory());
+
+        holder.binding.categoryIcon.setImageResource(transactionCategory.getCategoryImage());
+        holder.binding.categoryIcon.setBackgroundTintList(context.getColorStateList(transactionCategory.getCategoryColor()));
 
         if(transaction.getType().equals(Constants.INCOME))  {
             holder.binding.transactionAmount.setTextColor(context.getColor(R.color.greenColor));

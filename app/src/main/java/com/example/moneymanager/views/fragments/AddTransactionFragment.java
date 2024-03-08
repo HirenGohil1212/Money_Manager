@@ -1,5 +1,7 @@
 package com.example.moneymanager.views.fragments;
 
+import static com.example.moneymanager.utils.Constants.categories;
+
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.example.moneymanager.databinding.FragmentAddTransactionBinding;
 import com.example.moneymanager.databinding.ListDialogBinding;
 import com.example.moneymanager.models.Account;
 import com.example.moneymanager.models.Category;
+import com.example.moneymanager.utils.Constants;
 import com.example.moneymanager.utils.Helper;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.text.SimpleDateFormat;
@@ -93,13 +96,7 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             categoryDialog.setView(dialogBinding.getRoot());
 
 
-            ArrayList<Category> categories = new ArrayList<>();
-            categories.add(new Category("Salary",R.drawable.ic_salary, R.color.category1));
-            categories.add(new Category("Business",R.drawable.ic_business, R.color.category2));
-            categories.add(new Category("Investment",R.drawable.ic_investment, R.color.category3));
-            categories.add(new Category("Loan",R.drawable.ic_loan, R.color.category4));
-            categories.add(new Category("Rent",R.drawable.ic_rent, R.color.category5));
-            categories.add(new Category("Other",R.drawable.ic_other, R.color.category6));
+
 
             CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories, new CategoryAdapter.CategoryClickListener() {
                 @Override
