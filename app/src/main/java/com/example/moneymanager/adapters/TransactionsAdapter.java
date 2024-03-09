@@ -6,10 +6,8 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.moneymanager.R;
 import com.example.moneymanager.databinding.RowTransactionBinding;
 import com.example.moneymanager.models.Category;
@@ -17,10 +15,6 @@ import com.example.moneymanager.models.Transaction;
 import com.example.moneymanager.utils.Constants;
 import com.example.moneymanager.utils.Helper;
 import com.example.moneymanager.views.activities.MainActivity;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
 import io.realm.RealmResults;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.TransactionViewHolder>{
