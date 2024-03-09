@@ -1,6 +1,8 @@
 package com.example.moneymanager.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.example.moneymanager.models.Category;
 import com.example.moneymanager.models.Transaction;
 import com.example.moneymanager.utils.Constants;
 import com.example.moneymanager.utils.Helper;
+import com.example.moneymanager.views.activities.MainActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,11 +29,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     RealmResults<Transaction> transactions;
 
 
-    public TransactionsAdapter(Context context, RealmResults<Transaction> transactions){
+    public TransactionsAdapter(Context context, RealmResults    <Transaction> transactions){
 
             this.context = context;
             this.transactions = transactions;
-
 
     }
 
@@ -65,6 +67,25 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         else if(transaction.getType().equals(Constants.EXPENSE)){
             holder.binding.transactionAmount.setTextColor(context.getColor(R.color.redColor));
         }
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog deleteDialog = new AlertDialog.Builder(context).create();
+                deleteDialog.setTitle("Delete Transaction");
+                deleteDialog.setMessage("Are you sure to delete this transaction ?");
+
+                deleteDialog.setButton(DialogInterface.BUTTON_POSITIVE,"Yes",(dialogInterface, i) -> {
+                    ((MainActivity)context).viewModel.deleteTransaction(transaction);
+                });
+
+                deleteDialog.setButton(DialogInterface.BUTTON_NEGATIVE,"No",(dialogInterface, i) -> {
+                    deleteDialog.dismiss();
+                });
+                deleteDialog.show();
+                return false;
+            }
+        });
 
 
     }

@@ -11,4 +11,12 @@ public class Helper {
 
     }
 
+    public static String formateDateByMonth(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM, yyyy");
+        return dateFormat.format(date);
+
+    }
+
+
+
 }
